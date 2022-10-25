@@ -57,10 +57,60 @@ func Int64List(key string) []int64 {
 		i64, err := strconv.ParseInt(v, 10, 64)
 		if err != nil {
 			result[index] = 0
-			log.Printf("env: cannot convert %s to int64 (key: %s", v, key)
+			log.Printf("env: cannot convert %s to int64 (key: %s)", v, key)
 			continue
 		}
 		result[index] = i64
+	}
+	return result
+}
+
+func Uint(key string) uint {
+	v := os.Getenv(key)
+	u, err := strconv.ParseUint(v, 10, 64)
+	if err != nil {
+		log.Printf("env: cannot convert %s to uint (key: %s)", v, key)
+		return 0
+	}
+	return uint(u)
+}
+
+func UintList(key string) []uint {
+	vs := strings.Split(os.Getenv(key), ",")
+	result := make([]uint, len(vs))
+	for index, v := range vs {
+		u, err := strconv.ParseUint(v, 10, 64)
+		if err != nil {
+			result[index] = 0
+			log.Printf("env: cannot convert %s to uint (key: %s)", v, err)
+			continue
+		}
+		result[index] = uint(u)
+	}
+	return result
+}
+
+func Uint64(key string) uint64 {
+	v := os.Getenv(key)
+	u64, err := strconv.ParseUint(v, 10, 64)
+	if err != nil {
+		log.Printf("env: cannot convert %s to uint64 (key: %s)", v, err)
+		return 0
+	}
+	return u64
+}
+
+func Uint64List(key string) []uint64 {
+	vs := strings.Split(os.Getenv(key), ",")
+	result := make([]uint64, len(vs))
+	for index, v := range vs {
+		u64, err := strconv.ParseUint(v, 10, 64)
+		if err != nil {
+			result[index] = 0
+			log.Printf("env: cannot convert %s to uint64 (key: %s)", v, err)
+			continue
+		}
+		result[index] = u64
 	}
 	return result
 }
